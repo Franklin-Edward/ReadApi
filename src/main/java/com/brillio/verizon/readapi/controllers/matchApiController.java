@@ -41,14 +41,8 @@ public class matchApiController {
 	public ResponseEntity<?> fetchData(){
 		finalResponse.setRequestTimeStamp(Instant.now().toString());
 		List<ValuatedApis> apiResponses = new ArrayList<>();
-		String[] temp = env.getProperty("service.read.apis").split(",");
-		List<String> apis = Arrays.asList(temp);
-//		System.out.println(temp);
-//		List<String> apis = new ArrayList<>();
-//		apis.add("abc");
-//		apis.add("def");
-//		apis.add("ghi");
-//		apis.add("jkl");
+		List<String> apis = Arrays.asList(env.getProperty("service.read.apis").split(","));
+		System.out.println(apis);
 		int flag =apis.size();
 		List<String> apiExceptions = new ArrayList<>();
 		for(String api : apis) {
