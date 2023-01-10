@@ -3,11 +3,13 @@ package com.brillio.verizon.readapi.controllers;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,17 +32,23 @@ public class matchApiController {
 	MatchDataService matchDataService;
 	
 	@Autowired
+	private Environment env;
+	
+	@Autowired
 	FinalResponse finalResponse;
 	
 	@RequestMapping(value = "/api/test", method = RequestMethod.GET)
 	public ResponseEntity<?> fetchData(){
 		finalResponse.setRequestTimeStamp(Instant.now().toString());
 		List<ValuatedApis> apiResponses = new ArrayList<>();
-		List<String> apis = new ArrayList<>();
-		apis.add("abc");
-		apis.add("def");
-		apis.add("ghi");
-		apis.add("jkl");
+		String[] temp = env.getProperty("service.read.apis").split(",");
+		List<String> apis = Arrays.asList(temp);
+//		System.out.println(temp);
+//		List<String> apis = new ArrayList<>();
+//		apis.add("abc");
+//		apis.add("def");
+//		apis.add("ghi");
+//		apis.add("jkl");
 		int flag =apis.size();
 		List<String> apiExceptions = new ArrayList<>();
 		for(String api : apis) {
